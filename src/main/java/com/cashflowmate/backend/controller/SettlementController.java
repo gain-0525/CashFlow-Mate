@@ -1,11 +1,12 @@
 
 package com.cashflowmate.backend.controller;
 
+import com.cashflowmate.backend.dto.SettlementCreateRequest;
 import com.cashflowmate.backend.entity.Settlement;
 import com.cashflowmate.backend.service.SettlementService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +23,16 @@ public class SettlementController {
     @GetMapping
     public List<Settlement> getAllSettlements() {
         return settlementService.getAllSettlements();
+    }
+
+    @PostMapping
+    public ResponseEntity<Settlement> createSettlement(
+            @RequestBody SettlementCreateRequest request
+    ) {
+        Settlement settlement = settlementService.createSettlement(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(settlement);
     }
 }

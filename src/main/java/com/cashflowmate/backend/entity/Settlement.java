@@ -37,7 +37,7 @@ public class Settlement {
     @Column(name = "validation_status", nullable = false)
     private String validationStatus;
 
-    @Column(name = "upload_batch_id", nullable = false)
+    @Column(name = "upload_batch_id")
     private Long uploadBatchId;
 
     protected Settlement() {
