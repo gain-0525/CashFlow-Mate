@@ -28,6 +28,13 @@ public class Expense {
     protected Expense() {
     }
 
+    public Expense(String title, BigDecimal amount, LocalDate dueDate, String status) {
+        this.title = title;
+        this.amount = amount;
+        this.dueDate = dueDate;
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }
