@@ -1,39 +1,36 @@
+# Spring Boot / Gradle
 HELP.md
-.gradle
+.gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
-.idea
+# IntelliJ IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
-### NetBeans ###
+# STS / Eclipse
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+bin/
+
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+# VS Code
 .vscode/
 
 # Database credentials
@@ -44,3 +41,20 @@ src/main/resources/application-local.properties
 .env
 .env.*
 !.env.example
+
+# Logs
+logs/
+*.log
+
+# React / Node.js
+node_modules/
+dist/
+coverage/
+.next/
+.vite/
+*.tsbuildinfo
+
+# Package manager cache
+.npm/
+.pnpm-store/
+.yarn/
