@@ -1,6 +1,7 @@
 
 package com.cashflowmate.backend.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 import com.cashflowmate.backend.entity.UploadError;
@@ -41,7 +42,7 @@ public class SalesUploadService {
         this.uploadErrorRepository = uploadErrorRepository;
     }
 
-
+    @Transactional
     public void uploadSales(MultipartFile file) {
 
         // 1. 빈 파일인지 확인
@@ -133,6 +134,7 @@ public class SalesUploadService {
 
                     salesRepository.save(sale);
                     successRows++;
+
 
                 } catch (IllegalArgumentException | java.time.DateTimeException e) {
                     errorRows++;
