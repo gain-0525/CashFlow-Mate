@@ -25,7 +25,7 @@ public class Sales {
     @Column(name = "payment_method")
     private String paymentMethod;
 
-    @Column(name = "upload_batch_id", nullable = false)
+    @Column(name = "upload_batch_id")
     private Long uploadBatchId;
 
     protected Sales() {
