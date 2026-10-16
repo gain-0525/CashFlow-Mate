@@ -1,6 +1,7 @@
 
 package com.cashflowmate.backend.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import com.cashflowmate.backend.entity.Sales;
 import com.cashflowmate.backend.entity.Settlement;
 import com.cashflowmate.backend.entity.UploadBatch;
@@ -52,6 +53,7 @@ public class SettlementUploadService {
         this.objectMapper = objectMapper;
     }
 
+    @Transactional
     public void uploadSettlements(MultipartFile file) {
 
         // 1. 빈 파일 확인
