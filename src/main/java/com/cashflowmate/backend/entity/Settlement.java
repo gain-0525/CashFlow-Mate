@@ -124,4 +124,9 @@ public class Settlement {
         this.status = status;
         this.validationStatus = validationStatus;
     }
+
+    public void updateReconciliation(Long saleId, String validationStatus) {
+        this.saleId = saleId;
+        this.validationStatus = validationStatus;
+    }
 }

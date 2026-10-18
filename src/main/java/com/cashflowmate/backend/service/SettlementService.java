@@ -19,13 +19,16 @@ public class SettlementService {
 
     private final SettlementRepository settlementRepository;
     private final SalesRepository salesRepository;
+    private final SettlementValidationService settlementValidationService;
 
     public SettlementService(
             SettlementRepository settlementRepository,
-            SalesRepository salesRepository
+            SalesRepository salesRepository,
+            SettlementValidationService settlementValidationService
     ) {
         this.settlementRepository = settlementRepository;
         this.salesRepository = salesRepository;
+        this.settlementValidationService = settlementValidationService;
     }
 
     public List<Settlement> getAllSettlements() {
@@ -42,21 +45,12 @@ public class SettlementService {
         Long saleId = sale != null ? sale.getId() : null;
 
         // 검증 상태 결정
-        String validationStatus;
-
-        if (request.grossAmount().subtract(request.feeAmount())
-                .compareTo(request.netAmount()) != 0) {
-            validationStatus = "INVALID_DATA";
-
-        } else if (sale == null) {
-            validationStatus = "MISSING_SALE";
-
-        } else if (sale.getAmount().compareTo(request.grossAmount()) != 0) {
-            validationStatus = "AMOUNT_MISMATCH";
-
-        } else {
-            validationStatus = "MATCHED";
-        }
+        String validationStatus = settlementValidationService.calculateValidationStatus(
+                sale,
+                request.grossAmount(),
+                request.feeAmount(),
+                request.netAmount()
+        );
 
         Settlement settlement = new Settlement(
                 request.transactionId(),
@@ -102,21 +96,12 @@ public class SettlementService {
         Long saleId = sale != null ? sale.getId() : null;
 
         // 3. 정산 대조 상태 다시 계산
-        String validationStatus;
-
-        if (request.grossAmount().subtract(request.feeAmount())
-                .compareTo(request.netAmount()) != 0) {
-            validationStatus = "INVALID_DATA";
-
-        } else if (sale == null) {
-            validationStatus = "MISSING_SALE";
-
-        } else if (sale.getAmount().compareTo(request.grossAmount()) != 0) {
-            validationStatus = "AMOUNT_MISMATCH";
-
-        } else {
-            validationStatus = "MATCHED";
-        }
+        String validationStatus = settlementValidationService.calculateValidationStatus(
+                sale,
+                request.grossAmount(),
+                request.feeAmount(),
+                request.netAmount()
+        );
 
         // 4. 정산 데이터 수정
         settlement.update(
