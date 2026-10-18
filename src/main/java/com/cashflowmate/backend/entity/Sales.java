@@ -2,6 +2,8 @@
 package com.cashflowmate.backend.entity;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -69,5 +71,12 @@ public class Sales {
 
     public Long getUploadBatchId() {
         return uploadBatchId;
+    }
+    public void update(String transactionId, LocalDate saleDate, BigDecimal amount, String paymentMethod
+    ) {
+        this.transactionId = transactionId;
+        this.saleDate = saleDate;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
     }
 }
