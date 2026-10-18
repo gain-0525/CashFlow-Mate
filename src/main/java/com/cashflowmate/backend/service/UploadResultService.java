@@ -7,7 +7,9 @@ import com.cashflowmate.backend.entity.UploadError;
 import com.cashflowmate.backend.repository.UploadBatchRepository;
 import com.cashflowmate.backend.repository.UploadErrorRepository;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,37 +29,15 @@ public class UploadResultService {
 
     public UploadResultResponse getUploadResult(Long batchId) {
 
-        // 1. 업로드 이력 조회
         UploadBatch batch = uploadBatchRepository.findById(batchId)
-                .orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "존재하지 않는 업로드 번호입니다: " + batchId
-                        )
-                );
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "업로드 기록을 찾을 수 없습니다."
+                ));
 
-        // 2. 해당 업로드의 오류 목록 조회
-        List<UploadError> uploadErrors =
+        List<UploadError> errors =
                 uploadErrorRepository.findByUploadBatchId(batchId);
 
-        // 3. 오류 데이터를 DTO로 변환
-        List<UploadResultResponse.UploadErrorDetail> errors =
-                uploadErrors.stream()
-                        .map(error -> new UploadResultResponse.UploadErrorDetail(
-                                error.getRowNumber(),
-                                error.getErrorCode(),
-                                error.getErrorMessage()
-                        ))
-                        .toList();
-
-        // 4. 최종 응답 DTO 생성
-        return new UploadResultResponse(
-                batch.getId(),
-                batch.getFileName(),
-                batch.getFileType(),
-                batch.getTotalRows(),
-                batch.getSuccessRows(),
-                batch.getErrorRows(),
-                errors
-        );
+        return UploadResultResponse.from(batch, errors);
     }
 }

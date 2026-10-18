@@ -54,7 +54,7 @@ public class SettlementUploadService {
     }
 
     @Transactional
-    public void uploadSettlements(MultipartFile file) {
+    public Long uploadSettlements(MultipartFile file) {
 
         // 1. 빈 파일 확인
         if (file.isEmpty()) {
@@ -235,12 +235,12 @@ public class SettlementUploadService {
             System.out.println("실패: " + errorRows);
 
         } catch (IOException e) {
-
             throw new UncheckedIOException(
-                    "CSV 파일 읽기에 실패했습니다.",
-                    e
+                    "CSV 파일 읽기에 실패했습니다.", e
             );
         }
+
+        return batch.getId();
     }
 
     // 업로드 오류를 DB에 저장하는 메서드

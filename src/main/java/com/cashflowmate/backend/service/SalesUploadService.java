@@ -43,7 +43,7 @@ public class SalesUploadService {
     }
 
     @Transactional
-    public void uploadSales(MultipartFile file) {
+    public Long uploadSales(MultipartFile file) {
 
         // 1. 빈 파일인지 확인
         if (file.isEmpty()) {
@@ -171,6 +171,6 @@ public class SalesUploadService {
             throw new UncheckedIOException("CSV 파일을 읽을 수 없습니다.", e);
         }
 
+        return batch.getId();
     }
-
 }
