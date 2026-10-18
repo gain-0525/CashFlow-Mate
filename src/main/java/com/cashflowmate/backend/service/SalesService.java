@@ -7,6 +7,7 @@ import com.cashflowmate.backend.dto.SalesCreateRequest;
 import com.cashflowmate.backend.entity.Sales;
 import com.cashflowmate.backend.repository.SalesRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,5 +43,43 @@ public class SalesService {
                     "이미 존해자는 거래번호입니다."
             );
         }
+    }
+
+    @Transactional
+    public Sales updateSale(Long id, SalesCreateRequest request) {
+        Sales sale = salesRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "매출 내역을 찾을 수 없습니다. id=" +id
+                        )
+                );
+        sale.update(
+                request.transactionId(),
+                request.saleDate(),
+                request.amount(),
+                request.paymentMethod()
+        );
+        try {
+            salesRepository.flush();
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "이미 존재하는 거래번호입니다."
+            );
+        }
+        return sale;
+    }
+
+    @Transactional
+    public void deleteSale(Long id) {
+        Sales sale = salesRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "매출 내역을 찾을 수 없습니다. id=" + id
+                        )
+                );
+        salesRepository.delete(sale);
     }
 }
