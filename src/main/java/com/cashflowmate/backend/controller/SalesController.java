@@ -35,4 +35,21 @@ public class SalesController {
                 .status(HttpStatus.CREATED)
                 .body(sale);
     }
+
+    // 매출 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<Sales> updateSale(
+            @PathVariable Long id,
+            @RequestBody SalesCreateRequest request
+    ) {
+        Sales sale = salesService.updateSale(id, request);
+        return ResponseEntity.ok(sale);
+    }
+
+    // 매출 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSale(@PathVariable Long id) {
+        salesService.deleteSale(id);
+        return ResponseEntity.noContent().build();
+    }
 }
