@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.print.attribute.standard.Media;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/uploads")
@@ -32,29 +33,21 @@ public class UploadController {
     }
 
     // 매출 CSV 업로드
-    @PostMapping(
-            value="/sales",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    )
-    public ResponseEntity<String> uploadSales(
+    @PostMapping(value = "/sales", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, Long>> uploadSales(
             @RequestParam("file") MultipartFile file
     ) {
-        salesUploadService.uploadSales(file);
-
-        return ResponseEntity.ok("매출 CSV 업로드가 완료되었습니다.");
+        Long batchId = salesUploadService.uploadSales(file);
+        return ResponseEntity.ok(Map.of("batchId", batchId));
     }
 
     // 정산 CSV 업로드
-    @PostMapping(
-            value = "/settlements",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    )
-    public ResponseEntity<String> uploadSettlements(
+    @PostMapping(value = "/settlements", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, Long>> uploadSettlements(
             @RequestParam("file") MultipartFile file
     ) {
-        settlementUploadService.uploadSettlements(file);
-
-        return ResponseEntity.ok("정산 CSV 업로드가 완료되었습니다.");
+        Long batchId = settlementUploadService.uploadSettlements(file);
+        return ResponseEntity.ok(Map.of("batchId", batchId));
     }
 
     // CSV 업로드 결과 조회
