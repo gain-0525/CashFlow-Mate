@@ -35,4 +35,23 @@ public class SettlementController {
                 .status(HttpStatus.CREATED)
                 .body(settlement);
     }
+
+    // 정산 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<Settlement> updateSettlement(
+            @PathVariable Long id,
+            @RequestBody SettlementCreateRequest request
+    ) {
+        Settlement settlement = settlementService.updateSettlement(id, request);
+        return ResponseEntity.ok(settlement);
+    }
+
+    // 정산 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSettlement(
+            @PathVariable Long id
+    ) {
+        settlementService.deleteSettlement(id);
+        return ResponseEntity.noContent().build();
+    }
 }

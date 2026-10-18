@@ -104,4 +104,24 @@ public class Settlement {
         this.validationStatus = validationStatus;
         this.uploadBatchId = uploadBatchId;
     }
+
+    public void update(
+            String transactionId,
+            Long saleId,
+            LocalDate settlementDate,
+            BigDecimal grossAmount,
+            BigDecimal feeAmount,
+            BigDecimal netAmount,
+            String status,
+            String validationStatus
+    ) {
+        this.transactionId = transactionId;
+        this.saleId = saleId;
+        this.settlementDate = settlementDate;
+        this.grossAmount = grossAmount;
+        this.feeAmount = feeAmount;
+        this.netAmount = netAmount;
+        this.status = status;
+        this.validationStatus = validationStatus;
+    }
 }
