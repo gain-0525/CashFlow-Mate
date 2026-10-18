@@ -5,10 +5,13 @@ import com.cashflowmate.backend.dto.UploadResultResponse;
 import com.cashflowmate.backend.service.SalesUploadService;
 import com.cashflowmate.backend.service.SettlementUploadService;
 import com.cashflowmate.backend.service.UploadResultService;
+import org.springframework.http.MediaType;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.print.attribute.standard.Media;
 
 @RestController
 @RequestMapping("/api/uploads")
@@ -29,7 +32,10 @@ public class UploadController {
     }
 
     // 매출 CSV 업로드
-    @PostMapping("/sales")
+    @PostMapping(
+            value="/sales",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<String> uploadSales(
             @RequestParam("file") MultipartFile file
     ) {
@@ -39,7 +45,10 @@ public class UploadController {
     }
 
     // 정산 CSV 업로드
-    @PostMapping("/settlements")
+    @PostMapping(
+            value = "/settlements",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<String> uploadSettlements(
             @RequestParam("file") MultipartFile file
     ) {

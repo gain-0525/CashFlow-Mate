@@ -32,4 +32,19 @@ public class ExpenseController {
         Expense expense = expenseService.createExpense(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(expense);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Expense> updateExpense(
+            @PathVariable long id,
+            @RequestBody ExpenseCreateRequest request
+    ) {
+        Expense expense = expenseService.updateExpense(id, request);
+        return ResponseEntity.ok(expense);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Expense> deleteExpense(@PathVariable long id) {
+        expenseService.deleteExpense(id);
+        return ResponseEntity.noContent().build();
+    }
 }

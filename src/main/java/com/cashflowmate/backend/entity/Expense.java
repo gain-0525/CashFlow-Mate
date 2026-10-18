@@ -54,4 +54,16 @@ public class Expense {
     public String getStatus() {
         return status;
     }
+
+    public void update(
+            String title,
+            BigDecimal amount,
+            LocalDate dueDate,
+            String status
+    ) {
+        this.title = title;
+        this.amount = amount;
+        this.dueDate = dueDate;
+        this.status = status;
+    }
 }
